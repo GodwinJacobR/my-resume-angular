@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      <img src="/assets/resume.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      Resume
+    </a>
+  </nav>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a
+         class="nav-link"
+         [ngClass]="{ 'disabled': !isLoggedIn }"
+         routerLink="/contact">Contact</a>
+      </li>
+    </ul>
+  </div>
+</nav>

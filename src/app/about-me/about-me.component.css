@@ -1,5 +1,4 @@
-
- @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
 img {
   border: 1px solid #ddd;
@@ -8,21 +7,23 @@ img {
   width: 20vw;
 }
 
-
-.more1 {
-  width: 100%;
-  margin:0 auto;
-  display: block;
-  font-size:2vw;
+.more {
+  display: flex;
+  margin: 0px;
+  display: flex;
+  font-size: 1.5vw;
   align-items: center;
-  /* display: flex;
-  justify-content: center; */
+}
+
+.more-top {
+  margin: 50px 0px 0px 0px;
 }
 
 .country-icon {
-  /* margin: 0; */
+  margin: 0 10px 10px 10px;
   width: 4vw;
   height: 6vh;
+  padding: 10px;
 }
 
 .country {
@@ -38,14 +39,20 @@ img {
 }
 
 #profile {
-  background: url('https://r-cf.bstatic.com/images/hotel/max1024x768/120/120793423.jpg');
-  /* background: url('../../assets/native.jpg'); */
-  margin: 1;
-  border-radius: 0px;
+  background: url("https://r-cf.bstatic.com/images/hotel/max1024x768/120/120793423.jpg");
   align-items: center;
-  width: 60vw;
   height: 60vh;
-  /* margin:0 auto;
-  display: block; */
+  margin: 0;
+  padding: 20px 20px 20px 20px;
 }
 
+.fa {
+  /* padding: 20px; */
+  font-size: 25px;
+  text-decoration: none;
+  /* margin: 5px 2px; */
+}
+
+.fa:hover {
+  opacity: 0.4;
+}

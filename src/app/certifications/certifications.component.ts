@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CertificationsComponent implements OnInit {
 
-  certificates = ['1', '2', '3'];
+  certificates = ['1', '2', '3', '4'];
   constructor() { }
 
   ngOnInit(): void {

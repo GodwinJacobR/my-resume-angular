@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Certificate } from './certificate.model';
+import { CertificatesService } from './certificates.service';
 
 @Component({
   selector: 'app-certifications',
@@ -7,10 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CertificationsComponent implements OnInit {
 
-  certificates = ['1', '2', '3', '4'];
-  constructor() { }
+  certificates: Certificate[];
+  constructor(private certificatesService: CertificatesService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.certificates = this.certificatesService.getCertificates();
   }
 
 }

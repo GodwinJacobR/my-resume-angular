@@ -7,7 +7,7 @@ import { CertificationsComponent } from './certifications/certifications.compone
 
 
 const routes: Routes = [
- {path: '', redirectTo: '/auth', pathMatch: 'full'},
+ {path: '', redirectTo: '/home', pathMatch: 'full'},
  {path: 'home', component: HomeComponent},
  {path: 'auth', component: AuthComponent},
  {path: 'certifications', component: CertificationsComponent},

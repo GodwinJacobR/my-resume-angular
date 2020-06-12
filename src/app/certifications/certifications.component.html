@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <app-certificate
-      *ngFor="let certificate of certificates">
+      *ngFor="let certificate of certificates" [cert]="certificate">
     </app-certificate>
     </div>
   </div>

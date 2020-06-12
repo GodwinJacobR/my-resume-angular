@@ -9,6 +9,7 @@ import { ErrorPageComponent } from './errorpage/errorpage.component';
 import { HomeComponent } from './home/home.component';
 import { CertificationsComponent } from './certifications/certifications.component';
 import { CertificateComponent } from './certifications/certificate/certificate.component';
+import { AboutMeComponent } from './about-me/about-me.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CertificateComponent } from './certifications/certificate/certificate.c
     ErrorPageComponent,
     HomeComponent,
     CertificationsComponent,
-    CertificateComponent
+    CertificateComponent,
+    AboutMeComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ import { CertificatesService } from './certificates.service';
 export class CertificationsComponent implements OnInit {
 
   certificates: Certificate[];
+  certFilter = '';
   constructor(private certificatesService: CertificatesService) { }
 
   ngOnInit() {

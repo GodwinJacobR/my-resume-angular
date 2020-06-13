@@ -2,3 +2,5 @@ Login Page
 login as guest -> 
 take data from API
 Loading icon
+welcome with name
+serach bar for certs

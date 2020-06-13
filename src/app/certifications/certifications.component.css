@@ -3,3 +3,10 @@
   align-self: self;
   margin: 20px;
 }
+
+.search {
+  padding: 3px;
+  position: flex;
+  margin-left: 60vw;
+  color:rgb(37, 91, 190);
+}

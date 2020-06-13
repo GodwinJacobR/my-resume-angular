@@ -1,8 +1,19 @@
 <div class="div">
   <div class="container-fluid">
+    <div class="row search">
+      <div class="input-group mb-1" >
+        <input type="text" class="form-control" placeholder="Search" [(ngModel)]="certFilter">
+        <div class="input-group-append">
+          <button class="btn btn-success" type="submit" [ngStyle]="{ 'background-color': 'rgb(37, 91, 190)' }">
+            Go
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <app-certificate
-      *ngFor="let certificate of certificates" [cert]="certificate">
+      *ngFor="let certificate of certificates | filterCerts:certFilter"
+      [cert]="certificate">
     </app-certificate>
     </div>
   </div>

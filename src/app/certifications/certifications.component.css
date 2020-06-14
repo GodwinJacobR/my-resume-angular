@@ -1,12 +1,12 @@
 .div {
   padding: 3;
   align-self: self;
-  margin: 20px;
+  margin: 10px;
 }
 
 .search {
   padding: 3px;
   position: flex;
-  margin-left: 60vw;
+  margin-left: 70vw;
   color:rgb(37, 91, 190);
 }

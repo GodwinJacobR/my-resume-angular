@@ -1,1 +1,113 @@
-<p>Auth Works</p>
+<div class="container">
+  <div class="row inputs">
+    <form
+      class="form-signin form"
+      [formGroup]="loginForm"
+      (ngSubmit)="onLogin()"
+    >
+      <h1 class="h3 mb-3 font-weight-normal">{{ 'Please ' + (isLoginMode ? 'sign in' : 'sign up')}}</h1>
+      <div class="form-group">
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input
+          type="email"
+          id="inputEmail"
+          formControlName="inputEmail"
+          class="form-control inputs"
+          placeholder="Email address"
+        />
+        <div
+          *ngIf="inputEmail.invalid && (inputEmail.dirty || inputEmail.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="inputEmail.errors.forbiddenName">
+            Email cannot contain test.
+          </div>
+          <div *ngIf="inputEmail.errors.required">
+            Email is required.
+          </div>
+          <div *ngIf="inputEmail.errors.email">
+            Not a valid mail Id.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input
+          type="password"
+          id="inputPassword"
+          class="form-control"
+          formControlName="inputPassword"
+          placeholder="Password"
+        />
+        <div
+          *ngIf="inputPassword.invalid && (inputPassword.dirty || inputPassword.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="inputPassword.errors.required">
+            Password is required.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPasswordConfirm" class="sr-only" *ngIf="!isLoginMode"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="inputPasswordConfirm"
+          class="form-control"
+          formControlName="inputPasswordConfirm"
+          placeholder="Confirm Password"
+          *ngIf="!isLoginMode"
+        />
+        <div
+          *ngIf="inputPasswordConfirm.invalid && (inputPasswordConfirm.dirty || inputPasswordConfirm.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="inputPasswordConfirm.errors.required">
+            Password is required.
+          </div>
+        </div>
+        <div
+          *ngIf="loginForm.invalid && (loginForm.dirty || loginForm.touched) && loginForm.errors"
+          class="alert alert-danger">
+          <div *ngIf="loginForm.errors?.passwordNotMatching">
+            Passwords not matching.
+          </div>
+        </div>
+      </div>
+      <br />
+      <button
+       class="btn btn-lg btn-primary btn-block"
+       type="submit"
+       [disabled]="loginForm.invalid || loginForm.errors">
+        {{ isLoginMode ? 'Sign in' : 'Sign up' }}
+      </button>
+      <div class="mt-4">
+        <div *ngIf="isLoginMode">
+          <div class="d-flex justify-content-center links" >
+            <a [routerLink]="" (click)="onForgotPassword()"
+              >Forgot your password?</a
+            >
+          </div>
+          <div class="d-flex justify-content-center links">
+            Don't have an account?&nbsp;
+            <a [routerLink]="" (click)="switchSignIn()">Sign Up</a>
+          </div>
+          <br>
+          <div class="d-flex justify-content-center links">
+            <a [routerLink]="" (click)="onForgotPassword()">Continue as guest</a>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center links" *ngIf="!isLoginMode">
+          <a [routerLink]="" (click)="switchSignIn()">
+            Sign in&nbsp;</a>
+          instead
+        </div>
+      </div>
+      <div class="mt-4">
+
+      </div>
+    </form>
+  </div>
+</div>

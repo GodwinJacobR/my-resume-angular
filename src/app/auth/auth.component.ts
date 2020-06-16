@@ -3,6 +3,9 @@ import { FormGroup, FormControl, Validators, FormArray, ControlContainer } from 
 import { Observable } from 'rxjs';
 import { forbiddenNameValidator } from '../shared/forbidden-name.directive';
 import { MustMatch } from '../shared/must-match.directive';
+import { AuthResponseData, AuthService } from './auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-auth',
@@ -13,25 +16,42 @@ export class AuthComponent implements OnInit {
 
   loginForm: FormGroup;
   forgotPwdForm: FormGroup;
-  isLoginMode = true;
+  isLoginMode;
+  isLoading: boolean;
+  isLoggedIn: boolean;
   fieldTextType: boolean;
   repeatFieldTextType: boolean;
+  error = null;
+  username = '';
 
   get inputEmail() { return this.loginForm.get('inputEmail'); }
   get inputPassword() { return this.loginForm.get('inputPassword'); }
   get inputPasswordConfirm() { return this.loginForm.get('inputPasswordConfirm'); }
 
-  constructor() { }
+  constructor(private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.isLoginMode = true;
+    this.initializeForm();
+    this.authService.user.subscribe(user => {
+      this.isLoggedIn = !!user;
+      if (user) {
+        this.username = user.email;
+      }
+    })
+  }
+
+  initializeForm() {
     this.loginForm = new FormGroup({
       'inputEmail': new FormControl (null, [
         Validators.required,
         Validators.email,
         forbiddenNameValidator(/test/i)
       ], [this.asyncForbiddenNames.bind(this)]),
-      'inputPassword': new FormControl (null, [Validators.required]),
+      'inputPassword': new FormControl (null,
+        [ Validators.required,
+          this.passwordLengthValidator.bind(this)]),
       'inputPasswordConfirm': new FormControl (null, [Validators.required])
     }, {
       validators: [MustMatch('inputPassword', 'inputPasswordConfirm')]
@@ -40,13 +60,37 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.loginForm);
+    if(!this.loginForm.valid) {
+      return;
+    }
+
+    const email = this.loginForm.value.inputEmail;
+    const password = this.loginForm.value.inputPassword;
+
+    let authObs: Observable<AuthResponseData>;
+    this.isLoading = true;
+
     if (this.isLoginMode) {
-      console.log('Log In')
+      authObs = this.authService.login(email, password);
+    } else {
+      authObs = this.authService.signUp(email, password);
     }
-    else {
-      console.log('Sign Up')
-    }
+
+    authObs.subscribe(
+      resData => {
+        console.log(resData);
+        this.isLoading = false;
+        this.error = '';
+        this.isLoggedIn = true;
+        this.username = resData.email;
+      },
+      errorMessage => {
+        this.error = errorMessage;
+        this.isLoading = false;
+      }
+    );
+
+    this.loginForm.reset();
   }
 
   onForgotPassword() {
@@ -78,6 +122,19 @@ export class AuthComponent implements OnInit {
     return promise;
   }
 
+  passwordLengthValidator(control: FormControl) {
+
+    if (this.isLoginMode) {
+      return;
+    }
+    else {
+      if (control.value.length < 6) {
+        return({'passwordminLength': true})
+      }
+      return;
+    }
+  }
+
   setConiditionalValidators(isLoginMode: boolean) {
 
     const inputPasswordConfirm = this.loginForm.get('inputPasswordConfirm');
@@ -103,6 +160,10 @@ export class AuthComponent implements OnInit {
 
   toggleRepeatFieldTextType() {
     this.repeatFieldTextType = !this.repeatFieldTextType;
+  }
+
+  onLogOut() {
+    this.authService.logout();
   }
 
 }

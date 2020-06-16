@@ -1,13 +1,20 @@
 <div class="container">
+  <div class="row welcome" *ngIf="isLoggedIn">
+    <div class="col-xs-12">
+      <p class="font-italic font-weight-bolder text-muted">{{ 'Welcome, '+ username }}</p>
+      <a [routerLink]="" (click)="onLogOut()">
+        LogOut</a>
+    </div>
+  </div>
   <div class="row inputs">
     <!-- <form class="form-signin form"
     [formGroup]="forgotPwdForm"
     (ngSubmit)="onSubmit()"></form> -->
     <form
       class="form-signin form"
+      *ngIf="!isLoggedIn"
       [formGroup]="loginForm"
-      (ngSubmit)="onSubmit()"
-    >
+      (ngSubmit)="onSubmit()">
       <h1 class="h3 mb-3 font-weight-normal inputs">{{ 'Please ' + (isLoginMode ? 'sign in' : 'sign up')}}</h1>
       <div class="form-group">
         <label for="inputEmail" class="sr-only">Email address</label>
@@ -77,6 +84,9 @@
           *ngIf="inputPassword.invalid && (inputPassword.dirty || inputPassword.touched)"
           class="alert alert-danger"
         >
+          <div *ngIf="inputPassword.errors.passwordminLength">
+            Min Password length is 6.
+          </div>
           <div *ngIf="inputPassword.errors.required">
             Password is required.
           </div>
@@ -131,6 +141,16 @@
        [disabled]="loginForm.invalid || loginForm.errors || loginForm.pending">
         {{ isLoginMode ? 'Sign in' : 'Sign up' }}
       </button>
+      <br>
+      <div *ngIf="isLoading" style="text-align: center;">
+        <button class="btn btn-primary" type="button" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Signing in...
+        </button>
+      </div>
+      <div class="alert alert-danger" *ngIf="error">
+        <p>{{ error }}</p>
+      </div>
       <div class="mt-4">
         <div *ngIf="isLoginMode">
           <div class="d-flex justify-content-center links" >

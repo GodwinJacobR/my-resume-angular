@@ -12,6 +12,7 @@ import { CertificationsComponent } from './certifications/certifications.compone
 import { CertificateComponent } from './certifications/certificate/certificate.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { FilterCertsPipe } from './certifications/filter-certs.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { FilterCertsPipe } from './certifications/filter-certs.pipe';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

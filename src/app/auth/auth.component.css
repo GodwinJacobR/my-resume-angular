@@ -15,3 +15,13 @@
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
+
+.welcome {
+  position: inherit;
+  text-align: center;
+  width: 150%;
+  height: 10%;
+  font-size:2vw;
+  margin: 0 auto;
+  padding: 20px 0px 200px 20px;
+}

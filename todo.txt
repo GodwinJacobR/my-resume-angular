@@ -5,9 +5,9 @@ Loading icon
 welcome with name
 forgot password
 add a directive
-show pwd
+
 
 async validator - email already taken
 
-
+show pwd
 serach bar for certs

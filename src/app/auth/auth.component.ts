@@ -12,7 +12,10 @@ import { MustMatch } from '../shared/must-match.directive';
 export class AuthComponent implements OnInit {
 
   loginForm: FormGroup;
+  forgotPwdForm: FormGroup;
   isLoginMode = true;
+  fieldTextType: boolean;
+  repeatFieldTextType: boolean;
 
   get inputEmail() { return this.loginForm.get('inputEmail'); }
   get inputPassword() { return this.loginForm.get('inputPassword'); }
@@ -21,12 +24,13 @@ export class AuthComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.isLoginMode = true;
     this.loginForm = new FormGroup({
       'inputEmail': new FormControl (null, [
         Validators.required,
         Validators.email,
         forbiddenNameValidator(/test/i)
-      ]),
+      ], [this.asyncForbiddenNames.bind(this)]),
       'inputPassword': new FormControl (null, [Validators.required]),
       'inputPasswordConfirm': new FormControl (null, [Validators.required])
     }, {
@@ -35,8 +39,14 @@ export class AuthComponent implements OnInit {
     this.setConiditionalValidators(this.isLoginMode);
   }
 
-  onLogin() {
+  onSubmit() {
     console.log(this.loginForm);
+    if (this.isLoginMode) {
+      console.log('Log In')
+    }
+    else {
+      console.log('Sign Up')
+    }
   }
 
   onForgotPassword() {
@@ -50,20 +60,20 @@ export class AuthComponent implements OnInit {
     this.setConiditionalValidators(this.isLoginMode);
   }
 
-  onSignUp() {
-    console.log(this.loginForm);
-    this.isLoginMode = false;
-    this.loginForm.reset();
-  }
-
   asyncForbiddenNames(control: FormControl) : Promise<any> | Observable<any> {
+
     const promise = new Promise((resolve, reject) => {
-      setTimeout(()=> {
-        if (control.value === "test@test.com") {
-          resolve({'nameisForbidden': true})
-        }
+      if (this.isLoginMode) {
         resolve(null);
-      }, 3000)
+      }
+      else {
+        setTimeout(()=> {
+          if (control.value === "godwin@gmail.com") {
+            resolve({'mailAlreadyTaken': true})
+          }
+          resolve(null);
+        }, 3000)
+      }
     })
     return promise;
   }
@@ -80,8 +90,19 @@ export class AuthComponent implements OnInit {
     }
     else {
       this.loginForm.setValidators(MustMatch('inputPassword', 'inputPasswordConfirm'));
+      inputPasswordConfirm.setValidators(Validators.required);
+
       this.loginForm.updateValueAndValidity();
+      inputPasswordConfirm.updateValueAndValidity();
     }
+  }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
+
+  toggleRepeatFieldTextType() {
+    this.repeatFieldTextType = !this.repeatFieldTextType;
   }
 
 }

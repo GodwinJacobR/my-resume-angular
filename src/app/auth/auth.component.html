@@ -1,26 +1,45 @@
 <div class="container">
   <div class="row inputs">
+    <!-- <form class="form-signin form"
+    [formGroup]="forgotPwdForm"
+    (ngSubmit)="onSubmit()"></form> -->
     <form
       class="form-signin form"
       [formGroup]="loginForm"
-      (ngSubmit)="onLogin()"
+      (ngSubmit)="onSubmit()"
     >
-      <h1 class="h3 mb-3 font-weight-normal">{{ 'Please ' + (isLoginMode ? 'sign in' : 'sign up')}}</h1>
+      <h1 class="h3 mb-3 font-weight-normal inputs">{{ 'Please ' + (isLoginMode ? 'sign in' : 'sign up')}}</h1>
       <div class="form-group">
         <label for="inputEmail" class="sr-only">Email address</label>
-        <input
-          type="email"
-          id="inputEmail"
-          formControlName="inputEmail"
-          class="form-control inputs"
-          placeholder="Email address"
-        />
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input
+            type="email"
+            id="inputEmail"
+            formControlName="inputEmail"
+            class="form-control"
+            placeholder="Email address"
+          />
+        </div>
+        <div *ngIf="inputEmail.pending">
+          <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+            Verifying mail Id...
+          </button>
+        </div>
         <div
           *ngIf="inputEmail.invalid && (inputEmail.dirty || inputEmail.touched)"
           class="alert alert-danger"
         >
           <div *ngIf="inputEmail.errors.forbiddenName">
             Email cannot contain test.
+          </div>
+          <div *ngIf="inputEmail.errors.mailAlreadyTaken">
+            This mail id is already taken.
           </div>
           <div *ngIf="inputEmail.errors.required">
             Email is required.
@@ -32,13 +51,28 @@
       </div>
       <div class="form-group">
         <label for="inputPassword" class="sr-only">Password</label>
-        <input
-          type="password"
-          id="inputPassword"
-          class="form-control"
-          formControlName="inputPassword"
-          placeholder="Password"
-        />
+        <div class="input-group">
+          <input
+            [type]="fieldTextType ? 'text' : 'password'"
+            id="inputPassword"
+            class="form-control"
+            formControlName="inputPassword"
+            placeholder="Password"
+          />
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i
+                class="fa"
+                [ngClass]="{
+                  'fa-eye-slash': !fieldTextType,
+                  'fa-eye': fieldTextType
+                }"
+                (click)="toggleFieldTextType()"
+              ></i>
+            </span>
+          </div>
+        </div>
+
         <div
           *ngIf="inputPassword.invalid && (inputPassword.dirty || inputPassword.touched)"
           class="alert alert-danger"
@@ -48,39 +82,53 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="inputPasswordConfirm" class="sr-only" *ngIf="!isLoginMode"
+      <div class="form-group" *ngIf="!isLoginMode">
+        <label for="inputPasswordConfirm" class="sr-only"
           >Password</label
         >
-        <input
-          type="password"
-          id="inputPasswordConfirm"
-          class="form-control"
-          formControlName="inputPasswordConfirm"
-          placeholder="Confirm Password"
-          *ngIf="!isLoginMode"
-        />
-        <div
-          *ngIf="inputPasswordConfirm.invalid && (inputPasswordConfirm.dirty || inputPasswordConfirm.touched)"
-          class="alert alert-danger"
-        >
-          <div *ngIf="inputPasswordConfirm.errors.required">
-            Password is required.
+        <div class="input-group">
+          <input
+          [type]="repeatFieldTextType ? 'text' : 'password'"
+            id="inputPasswordConfirm"
+            class="form-control"
+            formControlName="inputPasswordConfirm"
+            placeholder="Confirm Password"
+            *ngIf="!isLoginMode"
+          />
+          <div class="input-group-append">
+            <span class="input-group-text">
+              <i
+                class="fa"
+                [ngClass]="{
+                  'fa-eye-slash': !repeatFieldTextType,
+                  'fa-eye': repeatFieldTextType
+                }"
+                (click)="toggleRepeatFieldTextType()"
+              ></i>
+            </span>
           </div>
         </div>
         <div
-          *ngIf="loginForm.invalid && (loginForm.dirty || loginForm.touched) && loginForm.errors"
-          class="alert alert-danger">
-          <div *ngIf="loginForm.errors?.passwordNotMatching">
-            Passwords not matching.
+            *ngIf="inputPasswordConfirm.invalid && (inputPasswordConfirm.dirty || inputPasswordConfirm.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="inputPasswordConfirm.errors.required">
+              Password is required.
+            </div>
           </div>
-        </div>
+          <div
+            *ngIf="loginForm.invalid && (loginForm.dirty || loginForm.touched) && loginForm.errors"
+            class="alert alert-danger">
+            <div *ngIf="loginForm.errors?.passwordNotMatching">
+              Passwords not matching.
+            </div>
+          </div>
       </div>
       <br />
       <button
        class="btn btn-lg btn-primary btn-block"
        type="submit"
-       [disabled]="loginForm.invalid || loginForm.errors">
+       [disabled]="loginForm.invalid || loginForm.errors || loginForm.pending">
         {{ isLoginMode ? 'Sign in' : 'Sign up' }}
       </button>
       <div class="mt-4">

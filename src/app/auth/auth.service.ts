@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, mergeMap } from 'rxjs/operators';
 import { User } from './user.model';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -116,4 +116,30 @@ export class AuthService {
     }, expirationDuration)
   };
 
+  getAllUsers() {
+    return this.http.get<string[]>(
+      'https://my-resume---angular.firebaseio.com/users.json'
+    );
+  }
+
+  addUser(email: string) {
+
+    this.http.get<string[]>(
+      'https://my-resume---angular.firebaseio.com/users.json'
+    ).subscribe(users => {
+      users.push(email);
+      this.http.put(
+        'https://my-resume---angular.firebaseio.com/users.json',
+        users
+      ).subscribe();
+    });
+  }
+
+  resetPassword(email: string) {
+
+    return this.http.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCQrXIuLvGVDIJCvWsRyoesygwK1v5_oqA', {
+      requestType:  'PASSWORD_RESET',
+      email: email
+    })
+  }
 }

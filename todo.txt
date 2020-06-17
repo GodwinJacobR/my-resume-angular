@@ -2,12 +2,12 @@ Login Page
 login as guest ->
 take data from API
 Loading icon
-welcome with name
-forgot password
+
+
 add a directive
 
-
+welcome with name
 async validator - email already taken
-
+forgot password
 show pwd
 serach bar for certs

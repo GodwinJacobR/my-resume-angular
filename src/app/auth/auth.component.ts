@@ -37,7 +37,7 @@ export class AuthComponent implements OnInit {
     this.authService.user.subscribe(user => {
       this.isLoggedIn = !!user;
       if (user) {
-        this.username = user.email;
+        this.username = user.email.split('@')[0];
       }
     })
   }
@@ -48,7 +48,7 @@ export class AuthComponent implements OnInit {
         Validators.required,
         Validators.email,
         forbiddenNameValidator(/test/i)
-      ], [this.asyncForbiddenNames.bind(this)]),
+      ], [this.checkMailExists.bind(this)]),
       'inputPassword': new FormControl (null,
         [ Validators.required,
           this.passwordLengthValidator.bind(this)]),
@@ -73,16 +73,16 @@ export class AuthComponent implements OnInit {
     if (this.isLoginMode) {
       authObs = this.authService.login(email, password);
     } else {
+      this.authService.addUser(email);
       authObs = this.authService.signUp(email, password);
     }
 
     authObs.subscribe(
       resData => {
-        console.log(resData);
         this.isLoading = false;
         this.error = '';
         this.isLoggedIn = true;
-        this.username = resData.email;
+        this.username = resData.email.split('@')[0];
       },
       errorMessage => {
         this.error = errorMessage;
@@ -96,6 +96,7 @@ export class AuthComponent implements OnInit {
   onForgotPassword() {
     console.log('Forgot Password');
     console.log(this.loginForm);
+    this.router.navigate(['auth', 'reset']);
   }
 
   switchSignIn() {
@@ -104,27 +105,27 @@ export class AuthComponent implements OnInit {
     this.setConiditionalValidators(this.isLoginMode);
   }
 
-  asyncForbiddenNames(control: FormControl) : Promise<any> | Observable<any> {
+  checkMailExists(control: FormControl) : Promise<any> | Observable<any> {
 
     const promise = new Promise((resolve, reject) => {
-      if (this.isLoginMode) {
-        resolve(null);
-      }
-      else {
-        setTimeout(()=> {
-          if (control.value === "godwin@gmail.com") {
+      this.authService.getAllUsers().subscribe(
+        users => {
+          if (this.isLoginMode || !control.value) {
+            resolve(null);
+          }
+          if (users.includes(control.value)) {
             resolve({'mailAlreadyTaken': true})
           }
           resolve(null);
-        }, 3000)
-      }
+        }
+      );
     })
     return promise;
   }
 
   passwordLengthValidator(control: FormControl) {
 
-    if (this.isLoginMode) {
+    if (this.isLoginMode || !control.value) {
       return;
     }
     else {

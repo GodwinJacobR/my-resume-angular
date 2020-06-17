@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row inputs">
+    <form
+    class="form-signin form"
+    [formGroup]="resetPwdForm"
+    (ngSubmit)="onSubmit()">
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <div class="input-group inputs">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+          </span>
+        </div>
+        <input
+          type="email"
+          id="inputEmail"
+          formControlName="inputEmail"
+          class="form-control"
+          placeholder="Email address"
+        />
+      </div>
+      <div *ngIf="inputEmail.pending">
+        <button class="btn btn-primary" type="button" disabled>
+          <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+          Verifying mail Id...
+        </button>
+      </div>
+      <div
+        *ngIf="inputEmail.invalid && (inputEmail.dirty || inputEmail.touched)"
+        class="alert alert-danger">
+        <div *ngIf="inputEmail.errors.required">
+          Mail Id is required
+        </div>
+        <div *ngIf="inputEmail.errors.unknownMailId">
+          This is not a registered Mail Id
+        </div>
+        </div>
+      <br>
+      <button
+       class="btn btn-lg btn-primary btn-block"
+       type="submit"
+       [disabled]="resetPwdForm.invalid || resetPwdForm.errors || resetPwdForm.pending">
+        Reset Password
+      </button>
+      <br>
+      <div class="row" *ngIf="pwdResetMailSent">
+        <div class="col-xs-12">
+          <p class="font-italic font-weight-bolder text-muted">Reset Password Mail sent...</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+

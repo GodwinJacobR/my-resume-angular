@@ -13,6 +13,7 @@ import { CertificateComponent } from './certifications/certificate/certificate.c
 import { AboutMeComponent } from './about-me/about-me.component';
 import { FilterCertsPipe } from './certifications/filter-certs.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { ResetPwdComponent } from './auth/reset-pwd/reset-pwd.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     CertificationsComponent,
     CertificateComponent,
     AboutMeComponent,
-    FilterCertsPipe
+    FilterCertsPipe,
+    ResetPwdComponent
   ],
   imports: [
     BrowserModule,

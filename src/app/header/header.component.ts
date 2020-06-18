@@ -16,6 +16,9 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn = !!user;
     }
     );
+    this.authService.autoLogOut.subscribe(message => {
+      alert(message);
+    })
   }
 
 }

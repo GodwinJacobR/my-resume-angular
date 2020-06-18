@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { CertificationsComponent } from './certifications/certifications.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { ResetPwdComponent } from './auth/reset-pwd/reset-pwd.component';
+import { AuthGuard } from './auth/auth.guard';
 
 
 const routes: Routes = [
@@ -13,8 +14,8 @@ const routes: Routes = [
  {path: 'home', component: HomeComponent},
  {path: 'auth', component: AuthComponent},
  {path: 'auth/reset', component: ResetPwdComponent},
- {path: 'me', component: AboutMeComponent},
- {path: 'certifications', component: CertificationsComponent},
+ {path: 'me', component: AboutMeComponent, canActivate: [AuthGuard]},
+ {path: 'certifications', component: CertificationsComponent, canActivate: [AuthGuard]},
  { path: 'not-found', component: ErrorPageComponent, data: {message: 'Page Not Found'} },
  { path: '**', redirectTo: '/not-found' }
 ];

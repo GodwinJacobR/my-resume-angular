@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap, mergeMap } from 'rxjs/operators';
 import { User } from './user.model';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 
@@ -19,6 +19,8 @@ export interface AuthResponseData {
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
+  autoLogOut = new Subject<string>();
+
   tokenExpirationTimer: any;
 
   constructor(private http: HttpClient,
@@ -50,6 +52,10 @@ export class AuthService {
       this.handleAuthentication(email, resData.localId, resData.idToken, +resData.expiresIn);
     }
     ));
+  }
+
+  guestLogin() {
+    this.handleAuthentication('Guest', '123', '123', 30);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -112,6 +118,7 @@ export class AuthService {
 
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
+      this.autoLogOut.next('You have been logged Out');
       this.logout();
     }, expirationDuration)
   };

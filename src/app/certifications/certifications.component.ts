@@ -14,7 +14,11 @@ export class CertificationsComponent implements OnInit {
   constructor(private certificatesService: CertificatesService) { }
 
   ngOnInit() {
-    this.certificates = this.certificatesService.getCertificates();
+    this.certificatesService.getCertificates().subscribe(
+      certs => {
+        this.certificates = certs;
+      }
+    );
   }
 
 }

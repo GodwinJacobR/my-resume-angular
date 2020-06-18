@@ -93,6 +93,10 @@ export class AuthComponent implements OnInit {
     this.loginForm.reset();
   }
 
+  onGuestLogin() {
+    this.authService.guestLogin();
+  }
+
   onForgotPassword() {
     console.log('Forgot Password');
     console.log(this.loginForm);

@@ -5,8 +5,9 @@
 }
 
 .search {
-  padding: 3px;
+  padding: 0%;
   position: flex;
+  width: 20vw;
   margin-left: 70vw;
-  color:rgb(37, 91, 190);
+  color: rgb(37, 91, 190);
 }

@@ -104,6 +104,7 @@ export class AuthComponent implements OnInit {
   }
 
   switchSignIn() {
+    this.error = null;
     this.loginForm.reset();
     this.isLoginMode = !this.isLoginMode;
     this.setConiditionalValidators(this.isLoginMode);

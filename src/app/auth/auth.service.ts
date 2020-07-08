@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   guestLogin() {
-    this.handleAuthentication('Guest', '123', '123', 30);
+    this.handleAuthentication('Guest', '123', '123', 3000);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -118,7 +118,7 @@ export class AuthService {
 
   autoLogout(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
-      this.autoLogOut.next('You have been logged Out');
+      this.autoLogOut.next('You have been logged out');
       this.logout();
     }, expirationDuration)
   };

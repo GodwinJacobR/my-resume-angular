@@ -1,11 +1,19 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
 .form {
-  padding: 45% 0% 10% 130%;
+  padding: 15% 0% 0% 0%;
+  align-items: center;
+  justify-content: center;
 }
 
 .inputs {
-  width: 280px;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 80vw;
+
 }
 
 .ng-valid[required], .ng-valid.required  {
@@ -17,11 +25,31 @@
 }
 
 .welcome {
-  position: inherit;
   text-align: center;
-  width: 150%;
-  height: 10%;
-  font-size:2vw;
+  width: 80vw;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
-  padding: 20px 0px 200px 20px;
+  /* padding: 20px 0px 200px 20px; */
+  padding: 0;
+}
+
+.welcome p {
+  font-size: 30px;
+}
+
+.logout {
+  font-size: 20px;
+  position: relative;
+  top: 0vh;
+  left: 10vw;
+}
+
+.login {
+  box-shadow: 0px 0px 8px 3px #4484C4;
+}
+
+.logoutpage {
+  display: flex;
 }
